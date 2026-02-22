@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entrenador Alfabeto Internacional ICAO</title>
+    <meta name="description"
+        content="Practica el Alfabeto Internacional ICAO y las Claves de Estado con ejercicios interactivos." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --red: #CC0000;
+            --red-dark: #990000;
+            --red-light: #FF4444;
+            --blue: #003087;
+            --blue-mid: #0050C8;
+            --blue-light: #2A74E8;
+            --white: #FFFFFF;
+            --off-white: #F5F7FA;
+            --gray-100: #EEF1F5;
+            --gray-200: #D8DDE7;
+            --gray-500: #6B7590;
+            --gray-700: #3A4260;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.16);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(150deg, #001A4D 0%, #002080 40%, #0A3BAA 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 16px 48px;
+            color: var(--gray-700);
+        }
+
+        /* ─── HEADER ─── */
+        header {
+            text-align: center;
+            margin-bottom: 32px;
+            animation: fadeDown .6s ease both;
+        }
+
+        .logo-cross {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            background: var(--red);
+            border-radius: 50%;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(204, 0, 0, 0.5);
+        }
+
+        .logo-cross svg {
+            width: 36px;
+            height: 36px;
+            fill: white;
+        }
+
+        header h1 {
+            font-size: clamp(1.5rem, 4vw, 2.4rem);
+            font-weight: 900;
+            color: var(--white);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        header h1 span {
+            color: #FF8080;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.72);
+            font-weight: 400;
+        }
+
+        /* ─── MODE SELECTOR ─── */
+        .mode-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 28px;
+            animation: fadeUp .6s .1s ease both;
+        }
+
+        .mode-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 24px;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.10);
+            color: rgba(255, 255, 255, 0.80);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .25s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .mode-btn:hover {
+            background: rgba(255, 255, 255, 0.20);
+            border-color: rgba(255, 255, 255, 0.55);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .mode-btn.active {
+            background: var(--red);
+            border-color: var(--red);
+            color: var(--white);
+            box-shadow: 0 6px 20px rgba(204, 0, 0, 0.5);
+        }
+
+        .mode-btn .icon {
+            font-size: 1.15rem;
+        }
+
+        /* ─── CARD ─── */
+        .card {
+            width: 100%;
+            max-width: 600px;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            animation: fadeUp .5s .2s ease both;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%);
+            padding: 24px 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            right: -30px;
+            top: -30px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .card-header h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.75);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 4px;
+        }
+
+        .card-header .mode-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .card-body {
+            padding: 28px;
+        }
+
+        /* ─── QUESTION AREA ─── */
+        .question-area {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .question-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--gray-500);
+            margin-bottom: 10px;
+        }
+
+        .question-display {
+            font-size: clamp(2.8rem, 10vw, 5rem);
+            font-weight: 900;
+            color: var(--blue);
+            line-height: 1;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.04em;
+            transition: all .3s ease;
+        }
+
+        .question-display.small {
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            text-align: center;
+            min-height: 64px;
+        }
+
+        .question-display.empty {
+            font-size: 1.1rem;
+            color: var(--gray-200);
+            font-weight: 500;
+        }
+
+        /* ─── INPUT ─── */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .answer-input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2.5px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .answer-input:focus {
+            border-color: var(--blue-mid);
+            box-shadow: 0 0 0 3px rgba(0, 80, 200, 0.12);
+        }
+
+        .answer-input::placeholder {
+            color: var(--gray-200);
+            font-weight: 400;
+        }
+
+        /* ─── BUTTONS ─── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 22px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s ease;
+            white-space: nowrap;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-verify {
+            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%);
+            color: var(--white);
+            box-shadow: 0 4px 14px rgba(0, 48, 135, 0.35);
+        }
+
+        .btn-verify:hover {
+            box-shadow: 0 6px 20px rgba(0, 48, 135, 0.45);
+            transform: translateY(-2px);
+        }
+
+        .btn-new {
+            width: 100%;
+            margin-top: 8px;
+            background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 100%);
+            color: var(--white);
+            padding: 16px;
+            font-size: 1.05rem;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 4px 14px rgba(204, 0, 0, 0.35);
+        }
+
+        .btn-new:hover {
+            box-shadow: 0 6px 22px rgba(204, 0, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* ─── FEEDBACK ─── */
+        .feedback {
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            margin-top: 16px;
+            display: none;
+            animation: popIn .3s ease;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #ECFDF5;
+            border: 2px solid #34D399;
+        }
+
+        .feedback.incorrect {
+            background: #FFF5F5;
+            border: 2px solid #FC8181;
+        }
+
+        .feedback-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feedback.correct .feedback-status {
+            color: #059669;
+        }
+
+        .feedback.incorrect .feedback-status {
+            color: var(--red);
+        }
+
+        .feedback-answer {
+            font-size: 0.88rem;
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+
+        .feedback-answer strong {
+            display: block;
+            font-size: 1rem;
+            margin-top: 4px;
+            color: var(--blue);
+        }
+
+        /* ─── ALPHABET REFERENCE ─── */
+        .reference-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 28px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.70);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            transition: color .2s;
+        }
+
+        .reference-toggle:hover {
+            color: var(--white);
+        }
+
+        .reference-panel {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 12px;
+            display: none;
+            animation: fadeUp .3s ease;
+        }
+
+        .reference-panel.show {
+            display: block;
+        }
+
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius);
+            padding: 16px;
+        }
+
+        .ref-item {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ref-letter {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--white);
+            width: 24px;
+            text-align: center;
+        }
+
+        .ref-word {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.82);
+            font-weight: 500;
+        }
+
+        /* ─── SCORE ─── */
+        .score-bar {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+            animation: fadeDown .5s .15s ease both;
+        }
+
+        .score-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .score-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .score-dot.green {
+            background: #34D399;
+        }
+
+        .score-dot.red {
+            background: #FC8181;
+        }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes letterPop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .letter-animate {
+            animation: letterPop .35s ease;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 480px) {
+            .input-group {
+                flex-direction: column;
+            }
+
+            .btn-verify {
+                width: 100%;
+            }
+
+            .mode-btn {
+                padding: 12px 18px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo-cross">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 2h6v7h7v6h-7v7H9v-7H2V9h7z" />
+            </svg>
+        </div>
+        <h1>Entrenador <span>Alfabeto ICAO</span></h1>
+        <p>Practica el alfabeto internacional y las claves de Estado</p>
+    </header>
+
+    <!-- SCORE -->
+    <div class="score-bar">
+        <div class="score-pill">
+            <div class="score-dot green"></div> Correctas: <strong id="scoreCorrect">0</strong>
+        </div>
+        <div class="score-pill">
+            <div class="score-dot red"></div> Errores: <strong id="scoreWrong">0</strong>
+        </div>
+    </div>
+
+    <!-- MODE TABS -->
+    <div class="mode-tabs">
+        <button class="mode-btn active" id="btn-mode-1" onclick="setMode('letra')">
+            <span class="icon">🔤</span> Letra aleatoria
+        </button>
+        <button class="mode-btn" id="btn-mode-2" onclick="setMode('palabra')">
+            <span class="icon">📝</span> Palabra de 3 letras
+        </button>
+        <button class="mode-btn" id="btn-mode-3" onclick="setMode('estado')">
+            <span class="icon">🚨</span> Claves de Estado
+        </button>
+        <button class="mode-btn" id="btn-mode-4" onclick="setMode('claves09')">
+            <span class="icon">🔢</span> Claves 0 a 9
+        </button>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="card">
+        <div class="card-header">
+            <h2 id="cardSubtitle">Modo activo</h2>
+            <div class="card-title mode-title" id="cardTitle">Letra aleatoria</div>
+        </div>
+        <div class="card-body">
+
+            <div class="question-area">
+                <div class="question-label" id="questionLabel">Pulsa el botón para empezar</div>
+                <div class="question-display empty" id="questionDisplay">—</div>
+            </div>
+
+            <div class="input-group">
+                <input id="answerInput" class="answer-input" type="text" placeholder="Escribe tu respuesta aquí..."
+                    onkeydown="if(event.key==='Enter') verify()" />
+                <button class="btn btn-verify" onclick="verify()" id="verifyBtn" disabled>Comprobar</button>
+            </div>
+
+            <div class="feedback" id="feedback">
+                <div class="feedback-status" id="feedbackStatus"></div>
+                <div class="feedback-answer" id="feedbackAnswer"></div>
+            </div>
+
+            <button class="btn btn-new" id="newBtn" onclick="newQuestion()">
+                🎲 Nueva pregunta
+            </button>
+
+        </div>
+    </div>
+
+    <!-- ALPHABET REFERENCE TOGGLE -->
+    <button class="reference-toggle" onclick="toggleReference()" id="refToggleBtn">
+        📋 Ver tabla de referencia ▾
+    </button>
+    <div class="reference-panel" id="referencePanel">
+        <div class="ref-grid" id="refGrid"></div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════
+        //  DATA
+        // ═══════════════════════════════════════════════════════════
+
+        const ICAO = {
+            A: 'Alfa', B: 'Bravo', C: 'Charlie', D: 'Delta',
+            E: 'Echo', F: 'Foxtrot', G: 'Golf', H: 'Hotel',
+            I: 'India', J: 'Juliett', K: 'Kilo', L: 'Lima',
+            M: 'Mike', N: 'November', O: 'Oscar', P: 'Papa',
+            Q: 'Quebec', R: 'Romeo', S: 'Sierra', T: 'Tango',
+            U: 'Uniform', V: 'Victor', W: 'Whiskey', X: 'X-ray',
+            Y: 'Yankee', Z: 'Zulu'
+        };
+
+        const ESTADO_CODES = [
+            {
+                question: '¿Qué significa el código 7500?',
+                answer: 'Secuestro / Interferencia ilícita de la aeronave',
+                keywords: ['secuestro', 'interferencia ilícita', 'interferencia', 'ilícita', 'hijacking']
+            },
+            {
+                question: '¿Qué significa el código 7600?',
+                answer: 'Fallo de comunicaciones (radio)',
+                keywords: ['fallo de comunicaciones', 'fallo comunicaciones', 'radiofallo', 'pérdida de radio', 'pérdida radio', 'comunicaciones', 'radio']
+            },
+            {
+                question: '¿Qué significa el código 7700?',
+                answer: 'Emergencia general / Situación de emergencia',
+                keywords: ['emergencia', 'situación de emergencia', 'peligro', 'general']
+            },
+            {
+                question: '¿Qué significa el código 2000?',
+                answer: 'Código de inicio o vuelo sin transponder activo',
+                keywords: ['inicio', 'vuelo sin transponder', 'sin transponder', 'transponder inactivo', 'transponder', 'código de inicio']
+            },
+            {
+                question: '¿Qué significa el código 1200?',
+                answer: 'Vuelo VFR en espacio aéreo no controlado (código VFR por defecto en EE.UU.)',
+                keywords: ['vfr', 'visual', 'no controlado', 'espacio aéreo no controlado', 'vifrex']
+            },
+            {
+                question: '¿Para qué sirve el transpondedor (transponder)?',
+                answer: 'Para identificar la aeronave ante el radar del control de tráfico aéreo, transmitiendo código e información de posición.',
+                keywords: ['identificar', 'identificación', 'radar', 'control de tráfico', 'ats', 'tráfico aéreo', 'posición', 'atc']
+            },
+            {
+                question: '¿Qué es el código Squawk?',
+                answer: 'Es el código de 4 dígitos (en octal) asignado por el control de tráfico aéreo y seleccionado en el transpondedor para identificar la aeronave en el radar.',
+                keywords: ['4 dígitos', 'cuatro dígitos', 'octal', 'transpondedor', 'radar', 'identificar', 'asignado', 'control de tráfico', 'cuatro', 'código']
+            },
+            {
+                question: '¿Qué indica el modo C del transpondedor?',
+                answer: 'Transmite automáticamente la altitud de presión de la aeronave al radar de control de tráfico.',
+                keywords: ['altitud', 'altitud de presión', 'presión', 'altímetro', 'altura', 'presión']
+            },
+            {
+                question: '¿Qué es MAYDAY?',
+                answer: 'Señal de socorro de máxima urgencia que indica peligro grave e inminente. Se repite 3 veces: MAYDAY MAYDAY MAYDAY.',
+                keywords: ['socorro', 'urgencia', 'peligro grave', 'inminente', 'máxima urgencia', 'peligro']
+            },
+            {
+                question: '¿Qué es PAN-PAN?',
+                answer: 'Señal de urgencia (nivel inferior a MAYDAY) que indica una situación urgente pero sin peligro inmediato de vida.',
+                keywords: ['urgencia', 'urgente', 'sin peligro inmediato', 'urgencia media', 'situación urgente']
+            },
+            {
+                question: '¿Qué es SECURITÉ?',
+                answer: 'Señal de seguridad que anuncia un mensaje importante sobre navegación o meteorología.',
+                keywords: ['seguridad', 'navegación', 'meteorología', 'aviso de seguridad', 'navegación meteorología']
+            },
+            {
+                question: '¿Cuál es el canal de emergencia aeronáutico internacional?',
+                answer: '121.5 MHz (canal de emergencia internacional en VHF).',
+                keywords: ['121.5', '121,5', '121.5 mhz', 'emergencia', 'vhf']
+            },
+            {
+                question: '¿Qué significa IMC?',
+                answer: 'Condiciones Meteorológicas de Instrumentos (Instrument Meteorological Conditions): visibilidad reducida que obliga a volar por instrumentos.',
+                keywords: ['condiciones meteorológicas de instrumentos', 'instrument meteorological', 'instrumentos', 'visibilidad reducida', 'imc', 'instrumentos de vuelo']
+            },
+            {
+                question: '¿Qué significa VMC?',
+                answer: 'Condiciones Meteorológicas Visuales (Visual Meteorological Conditions): visibilidad suficiente para volar en VFR.',
+                keywords: ['condiciones meteorológicas visuales', 'visual meteorological', 'vfr', 'visibilidad', 'vuelo visual']
+            }
+        ];
+
+        // ═══════════════════════════════════════════════════════════
+        //  CLAVES 0 A 9
+        // ═══════════════════════════════════════════════════════════
+        const CLAVES_09 = [
+            {
+                question: '¿Qué significa la Clave 0?',
+                answer: 'Recurso disponible',
+                keywords: ['disponible', 'recurso disponible']
+            },
+            {
+                question: '¿Qué significa la Clave 1?',
+                answer: 'Servicio urgente (requiere permiso del centro)',
+                keywords: ['servicio urgente', 'urgente', 'permiso del centro', 'permiso centro']
+            },
+            {
+                question: '¿Qué significa la Clave 2?',
+                answer: 'En intervención (Llegada al lugar)',
+                keywords: ['en intervención', 'intervención', 'llegada al lugar', 'llegada', 'lugar']
+            },
+            {
+                question: '¿Qué significa la Clave 3?',
+                answer: 'No disponible (avería o incidencia interna)',
+                keywords: ['no disponible', 'avería', 'incidencia interna', 'incidencia', 'averia']
+            },
+            {
+                question: '¿Qué significa la Clave 5?',
+                answer: 'SOLICITUD DE AYUDA. El equipo está en peligro inminente. Implica el envío inmediato de Fuerzas de Seguridad (Policía)',
+                keywords: ['solicitud de ayuda', 'ayuda', 'peligro inminente', 'fuerzas de seguridad', 'policía', 'policia', 'peligro']
+            },
+            {
+                question: '¿Qué significa la Clave 6?',
+                answer: 'SITUACIÓN CONFLICTIVA. Circunstancias político-sociales que obligan a cambiar el criterio de actuación. IMPORTANTE: Bajo esta clave, se restringe la transmisión de síntomas del paciente por radio para proteger el equipo y al beneficiario.',
+                keywords: ['situación conflictiva', 'conflictiva', 'político-sociales', 'politico-sociales', 'criterio de actuación', 'restringe', 'síntomas', 'sintomas', 'radio']
+            }
+        ];
+
+        // ═══════════════════════════════════════════════════════════
+        //  STATE
+        // ═══════════════════════════════════════════════════════════
+        let currentMode = 'letra';
+        let currentQuestion = null;   // { letter } | { word } | { index }
+        let answered = false;
+        let score = { correct: 0, wrong: 0 };
+        let refVisible = false;
+
+        const LETTERS = Object.keys(ICAO);
+
+        // ═══════════════════════════════════════════════════════════
+        //  INIT
+        // ═══════════════════════════════════════════════════════════
+        function init() {
+            buildRefGrid();
+            setMode('letra');
+        }
+
+        function buildRefGrid() {
+            const grid = document.getElementById('refGrid');
+            grid.innerHTML = '';
+            LETTERS.forEach(l => {
+                const div = document.createElement('div');
+                div.className = 'ref-item';
+                div.innerHTML = `<span class="ref-letter">${l}</span><span class="ref-word">${ICAO[l]}</span>`;
+                grid.appendChild(div);
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        //  MODES
+        // ═══════════════════════════════════════════════════════════
+        function setMode(mode) {
+            currentMode = mode;
+            currentQuestion = null;
+            answered = false;
+
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            const modeIdMap = { letra: '1', palabra: '2', estado: '3', claves09: '4' };
+            document.getElementById('btn-mode-' + modeIdMap[mode]).classList.add('active');
+
+            const titles = {
+                letra: { sub: 'Modo 1', title: 'Letra aleatoria', placeholder: 'Escribe la palabra ICAO (ej: Alfa)…', label: 'Escribe la palabra del alfabeto ICAO para la letra:' },
+                palabra: { sub: 'Modo 2', title: 'Palabra de 3 letras', placeholder: 'Escribe las 3 palabras ICAO (ej: Charlie Alfa Tango)…', label: 'Escribe la versión ICAO completa de la palabra:' },
+                estado: { sub: 'Modo 3', title: 'Claves de Estado', placeholder: 'Escribe tu respuesta…', label: 'Pregunta:' },
+                claves09: { sub: 'Modo 4', title: 'Claves 0 a 9', placeholder: 'Escribe el significado de la clave…', label: 'Pregunta sobre Claves:' }
+            };
+            const t = titles[mode];
+            document.getElementById('cardSubtitle').textContent = t.sub;
+            document.getElementById('cardTitle').textContent = t.title;
+            document.getElementById('answerInput').placeholder = t.placeholder;
+            document.getElementById('questionLabel').textContent = 'Pulsa "Nueva pregunta" para empezar';
+
+            const disp = document.getElementById('questionDisplay');
+            disp.textContent = '—';
+            disp.className = 'question-display empty';
+
+            clearFeedback();
+            resetInput();
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        //  NEW QUESTION
+        // ═══════════════════════════════════════════════════════════
+        function newQuestion() {
+            answered = false;
+            clearFeedback();
+            resetInput();
+
+            const disp = document.getElementById('questionDisplay');
+
+            if (currentMode === 'letra') {
+                const letter = LETTERS[Math.floor(Math.random() * LETTERS.length)];
+                currentQuestion = { letter };
+                disp.textContent = letter;
+                disp.className = 'question-display letter-animate';
+                document.getElementById('questionLabel').textContent = 'Escribe la palabra ICAO para la letra:';
+
+            } else if (currentMode === 'palabra') {
+                const word = Array.from({ length: 3 }, () => LETTERS[Math.floor(Math.random() * LETTERS.length)]).join('');
+                currentQuestion = { word };
+                disp.textContent = word;
+                disp.className = 'question-display letter-animate';
+                document.getElementById('questionLabel').textContent = 'Escribe la versión ICAO completa (3 palabras):';
+
+            } else if (currentMode === 'estado') {
+                const idx = Math.floor(Math.random() * ESTADO_CODES.length);
+                currentQuestion = { idx };
+                disp.textContent = ESTADO_CODES[idx].question;
+                disp.className = 'question-display small letter-animate';
+                document.getElementById('questionLabel').textContent = 'Pregunta sobre Claves de Estado:';
+
+            } else {
+                const idx = Math.floor(Math.random() * CLAVES_09.length);
+                currentQuestion = { idx };
+                disp.textContent = CLAVES_09[idx].question;
+                disp.className = 'question-display small letter-animate';
+                document.getElementById('questionLabel').textContent = 'Pregunta sobre Claves 0 a 9:';
+            }
+
+            document.getElementById('verifyBtn').disabled = false;
+            document.getElementById('answerInput').focus();
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        //  VERIFY
+        // ═══════════════════════════════════════════════════════════
+        function verify() {
+            if (!currentQuestion || answered) return;
+            answered = true;
+
+            const raw = document.getElementById('answerInput').value.trim();
+            const lower = raw.toLowerCase();
+            const fb = document.getElementById('feedback');
+            const status = document.getElementById('feedbackStatus');
+            const answer = document.getElementById('feedbackAnswer');
+            let correct = false;
+            let correctText = '';
+
+            if (currentMode === 'letra') {
+                const expected = ICAO[currentQuestion.letter].toLowerCase();
+                correctText = ICAO[currentQuestion.letter];
+                correct = lower === expected;
+
+            } else if (currentMode === 'palabra') {
+                const letters = currentQuestion.word.split('');
+                const expected = letters.map(l => ICAO[l].toLowerCase()).join(' ');
+                correctText = letters.map(l => ICAO[l]).join(' ');
+                const given = lower.replace(/\s+/g, ' ').trim();
+                correct = given === expected;
+
+            } else if (currentMode === 'estado') {
+                const entry = ESTADO_CODES[currentQuestion.idx];
+                correctText = entry.answer;
+                correct = entry.keywords.some(k => lower.includes(k));
+
+            } else {
+                const entry = CLAVES_09[currentQuestion.idx];
+                correctText = entry.answer;
+                correct = entry.keywords.some(k => lower.includes(k));
+            }
+
+            if (correct) {
+                score.correct++;
+                fb.className = 'feedback show correct';
+                status.innerHTML = '✅ ¡Correcto!';
+            } else {
+                score.wrong++;
+                fb.className = 'feedback show incorrect';
+                status.innerHTML = '❌ Incorrecto';
+            }
+
+            answer.innerHTML = `Respuesta correcta: <strong>${correctText}</strong>`;
+            updateScore();
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        //  HELPERS
+        // ═══════════════════════════════════════════════════════════
+        function clearFeedback() {
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('feedbackStatus').innerHTML = '';
+            document.getElementById('feedbackAnswer').innerHTML = '';
+        }
+        function resetInput() {
+            document.getElementById('answerInput').value = '';
+            document.getElementById('verifyBtn').disabled = !currentQuestion;
+        }
+        function updateScore() {
+            document.getElementById('scoreCorrect').textContent = score.correct;
+            document.getElementById('scoreWrong').textContent = score.wrong;
+        }
+        function toggleReference() {
+            refVisible = !refVisible;
+            const panel = document.getElementById('referencePanel');
+            const btn = document.getElementById('refToggleBtn');
+            panel.classList.toggle('show', refVisible);
+            btn.textContent = refVisible ? '📋 Ocultar tabla de referencia ▴' : '📋 Ver tabla de referencia ▾';
+        }
+
+        // ─── BOOT ───
+        init();
+    </script>
+</body>
+
+</html>
